@@ -1,12 +1,12 @@
-# .
+# Api Request Logger
 
-TODO: Write a gem description
+Logging Api Requests using BigQuery And Redis
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem '.'
+    gem 'api_request_logger'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install .
+    $ gem install api_request_logger
 
 ## Usage
 
