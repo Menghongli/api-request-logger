@@ -1,0 +1,5 @@
+# Include correct information about the app
+## cp ga_config.yml.sample ga_config.yml
+project_id: propane-tribute-90023
+application_name: 'My Test App'
+application_version: 1.0
