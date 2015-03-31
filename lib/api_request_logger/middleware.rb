@@ -31,14 +31,6 @@ module ApiRequestLogger
 
     private
 
-    def current_member
-      @env['action_controller.instance'].try(:current_member)
-    end
-
-    def round
-      @env['action_controller.instance'].try(:instance_variable_get, :@round)
-    end
-
     def log_request
       h = {
         :method => @request.method,
@@ -56,10 +48,10 @@ module ApiRequestLogger
       }
       h.delete_if {|key, val| val.nil? || val.blank?}
 
-      key = "request:#{SecureRandom.base64(15)}"
+      key = ApiRequestLogger::Helpers::RedisKeyMapper.random_request_key
 
       if ApiRequestLogger.config.loading_method == :bulk_load
-        ApiRequestLogger.redis.sadd("requests", key)
+        ApiRequestLogger.redis.sadd(ApiRequestLogger::Helpers::RedisKeyMapper.everydays_request_set, key)
         ApiRequestLogger.redis.hmset(key, *h.to_a.flatten)
       else
         #TODO
@@ -106,6 +98,8 @@ module ApiRequestLogger
     end
 
     def lookup_geographic_location(ip)
+      #TODO
+      # Download GeoLiteCity.dat
       $geoip ||= GeoIP.new(File.join(Rails.root, "db", "GeoLiteCity.dat"))
 
       if lookup = $geoip.city(ip)
