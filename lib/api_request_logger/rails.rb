@@ -1,8 +1,16 @@
 module ApiRequestLogger
-  class Engine < Rails::Engine
+  class Railtie < Rails::Railtie
 
-    initializer "api_request_logger.add_middleware" do |app|
-      app.middleware.user ApiRequestLogger::Middleware
+    initializer "api_request_logger.configure_rails_initialization" do
+      insert_middleware
+    end
+
+    def insert_middleware
+      app.middleware.use ApiRequestLogger::Middleware
+    end
+
+    def app
+      Rails.application
     end
   end
 end

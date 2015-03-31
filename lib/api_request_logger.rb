@@ -1,6 +1,7 @@
 require "api_request_logger/version"
 require "api_request_logger/configuration"
 require "api_request_logger/helpers"
+require "api_request_logger/middleware"
 
 module ApiRequestLogger
   class << self
@@ -45,20 +46,22 @@ module ApiRequestLogger
     end
 
     def import_into_big_query
-      #TODO
+      # TODO Bulk import data into big query
     end
 
     def upload_to_google_cloud
-      #TODO
+      # TODO Update files to Google Cloud
     end
 
     def delete_yesterdays_requests_set
-      #TODO
+      # TODO Delete Yesterday's requests set
     end
 
     def stream_import_into_big_query
-      #TODO
+      # TODO Stream import data into big query
     end
 
   end
 end
+
+require "api_request_logger/rails" if defined? Rails::Railtie
