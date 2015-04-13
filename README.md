@@ -20,6 +20,12 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+please add queue name and weights into config/sidekiq.yml
+    :queues:
+    - [api_request_logger, 4]
+    - [default, 3]
+    ...
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/./fork )
