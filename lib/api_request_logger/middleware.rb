@@ -36,7 +36,7 @@ module ApiRequestLogger
         :method => @request.method,
         :path => @request.path,
         :query_string => sanitize_params(@request.query_string.dup),
-        :auth_token => @request.headers['HTTP_X_AUTH_TOKEN'] || @request.params['auth_token'] || @request.cookies[Settings.api_auth.cookie_name],
+        :auth_token => @request.headers['HTTP_X_AUTH_TOKEN'] || @request.params['auth_token'],
         :params => sanitize_params(@request.params.except(:session, :format, :action, :controller, :auth_token, *@request.query_parameters.keys).collect{|x,y| "#{x}=#{y}"}.join("&")),
         :user_agent => @request.user_agent,
         :ip => @env['LIKELY_IP'],
