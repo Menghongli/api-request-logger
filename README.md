@@ -29,7 +29,7 @@ require 'redis'
 
 ApiRequestLogger.configure do |config|
   # BigQuery Loading method
-  #
+  # Options: bulk_load, stream_load
   # Default: bulk_load
   config.loading_method = :bulk_load
 
@@ -59,6 +59,13 @@ application_name: 'My Test App'
 application_version: 1.0
 ```
 
+### Credentials
+* Download your application default credentials from `Google Developers Console`
+* Set the environment variable GOOGLE_APPLICATION_CREDENTIALS to the path of the JSON file downloaded
+```
+ENV['GOOGLE_APPLICATION_CREDENTIALS'] = '/src/api_request_logger/config/YOUR-APP-CREDENTIALS.json'
+```
+
 * `TODO` customize BigQuery Schema
 * Sidekiq-cron: Add into your sidekiq initializer file (`config/initializers/sidekiq.rb`)
 ```ruby
@@ -69,7 +76,7 @@ if File.exists?(schedule_file)
 end
 ```
 
-Add the follow job to your schedule file (`config/schedule.yml`)
+Add the follow job to your schedule file (`config/schedule.yml`) if your are using bulk_load
 ```yml
 # config/schedule.yml
 DumpBigQueryDataWorker:
