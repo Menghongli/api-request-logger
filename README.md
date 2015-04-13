@@ -8,21 +8,18 @@ Logging Api Requests using BigQuery And Redis
 * Sidekiq-cron
 * Google Api Client
 
-## Installation
+## Getting started
 
 Add this line to your application's `Gemfile`:
 ```ruby
 gem 'api_request_logger'
 ```
-And then execute:
-```shell
-$ bundle
+
+After bundling, you need to run the generator
+```ruby
+rails generate api_request_logger:install
 ```
-Or install it yourself as:
-
-    $ gem install api_request_logger
-
-After bundling, you should configure ApiRequestLogger. Do this somewhere after you've required it, but before it's actually used. For example, Rails users would create an initializer (`config/initializers/api_request_logger.rb`):
+The generator will install an initializer which contains all of api_request_logger's configuration opstions.(`config/initializers/api_request_logger.rb`):
 
 ```ruby
 require 'redis'
