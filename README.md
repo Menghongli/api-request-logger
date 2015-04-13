@@ -3,10 +3,10 @@
 Logging Api Requests using BigQuery And Redis
 
 ## Requirements
-* [Redis] Redis
-* [sidekiq] Sidekiq
-* [sidekiq-cron] Sidekiq-cron
-* [google-api-client] Google Api Client
+* Redis
+* Sidekiq
+* Sidekiq-cron
+* Google Api Client
 
 ## Installation
 
@@ -67,6 +67,14 @@ schedule_file = "config/schedule.yml"
 if File.exists?(schedule_file)
   Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
 end
+```
+
+Add the follow job to your schedule file (`config/schedule.yml`)
+```yml
+# config/schedule.yml
+DumpBigQueryDataWorker
+  cron: "*/5 * * * *"
+  class: "ApiRequestLogger::Workers::DumpBigQueryDataWorker"
 ```
 
 ## Usage
