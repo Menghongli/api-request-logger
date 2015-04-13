@@ -72,7 +72,7 @@ end
 Add the follow job to your schedule file (`config/schedule.yml`)
 ```yml
 # config/schedule.yml
-DumpBigQueryDataWorker
+DumpBigQueryDataWorker:
   cron: "*/5 * * * *"
   class: "ApiRequestLogger::Workers::DumpBigQueryDataWorker"
 ```
