@@ -1,5 +1,5 @@
 module ApiRequestLogger
-  class RequestLoggerMiddleware
+  class Middleware
 
     def initialize(app, options={})
       @app = app
