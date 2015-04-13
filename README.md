@@ -2,6 +2,12 @@
 
 Logging Api Requests using BigQuery And Redis
 
+## Requirements
+* [Redis] Redis
+* [sidekiq] Sidekiq
+* [sidekiq-cron] Sidekiq-cron
+* [google-api-client] Google Api Client
+
 ## Installation
 
 Add this line to your application's `Gemfile`:
@@ -54,6 +60,14 @@ application_version: 1.0
 ```
 
 * `TODO` customize BigQuery Schema
+* Sidekiq-cron: Add into your sidekiq initializer file (`config/initializers/sidekiq.rb`)
+```ruby
+schedule_file = "config/schedule.yml"
+
+if File.exists?(schedule_file)
+  Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
+end
+```
 
 ## Usage
 
