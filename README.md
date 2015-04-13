@@ -5,13 +5,13 @@ Logging Api Requests using BigQuery And Redis
 ## Installation
 
 Add this line to your application's `Gemfile`:
-
-    gem 'api_request_logger'
-
+```ruby
+gem 'api_request_logger'
+```
 And then execute:
-
-    $ bundle
-
+```shell
+$ bundle
+```
 Or install it yourself as:
 
     $ gem install api_request_logger
@@ -45,20 +45,20 @@ The values listed above are the defaults.
 
 ## Configuration
 
-1. Google api configuration (`config/ga_config.yml`)
-```
+* Google api configuration (`config/ga_config.yml`)
+```yml
 # Include correct information about the app
 project_id: propane-tribute-90023
 application_name: 'My Test App'
 application_version: 1.0
 ```
 
-2. `TODO` customize BigQuery Schema
+* `TODO` customize BigQuery Schema
 
 ## Usage
 
 Add Sidekiq queue name and weights into `config/sidekiq.yml`
-```
+```yml
 :queues:
 - [api_request_logger, 4]
 ```
