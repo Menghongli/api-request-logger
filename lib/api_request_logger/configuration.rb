@@ -18,10 +18,16 @@ module ApiRequestLogger
     # Default: api_request_logger
     attr_accessor :redis_namespace
 
+    # Application Name
+    #
+    # Default: api_request_logger
+    attr_accessor :application_name
+
     def initialize
       @loading_method = :bulk_load
       @redis = Redis.new
       @redis_namespace = :api_request_logger
+      @application_name = "Api_request_logger"
     end
   end
 

@@ -1,3 +1,5 @@
+require 'json'
+
 require "api_request_logger/version"
 require "api_request_logger/configuration"
 require "api_request_logger/helpers"
@@ -45,20 +47,21 @@ module ApiRequestLogger
       end
     end
 
-    def import_into_big_query
-      # TODO Bulk import data into big query
+    def import_into_big_query(filename)
+      schema_file = IO.read(File.join(Rails.root, 'config', 'bq_schema.json'))
+      schema = JSON.parse(schema_file)
+
+      ApiRequestLogger::GoogleApi.new.insert_data(filename, "#{config.application_name}-#{Rails.env}", "api_requests_#{Date.today.strftime('%Y%m%d')}", schema)
     end
 
-    def upload_to_google_cloud
-      # TODO Update files to Google Cloud
+    def upload_to_google_cloud(filename)
+      remote_file_name = Time.current.strftime("%Y/%b/%d/#{File.basename(filename)}")
+      ApiRequestLogger::GoogleApi.new.upload_file(filename, "#{config.application_name}-#{Rails.env}", remote_file_name)
+      remote_file_name
     end
 
-    def delete_yesterdays_requests_set
-      # TODO Delete Yesterday's requests set
-    end
-
-    def stream_import_into_big_query
-      # TODO Stream import data into big query
+    def stream_import_into_big_query(data)
+      ApiRequestLogger::GoogleApi.new.stream_data("api_requests_#{Date.today.strftime('%Y%m%d')}", data)
     end
 
   end

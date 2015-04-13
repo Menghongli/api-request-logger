@@ -25,6 +25,10 @@ module ApiRequestLogger
       @bigquery = client.discovered_api('bigquery','v2')
     end
 
+    def storage
+      @storage = client.discovered_api('storage', 'v1')
+    end
+
     def authorize
       client.authorization = :google_app_default
       client.authorization.fetch_access_token!
@@ -33,36 +37,27 @@ module ApiRequestLogger
       @authorized_at = Time.current
     end
 
-    def split_table_for_date(date, source_dataset_id, dest_dataset_id, table_name)
-
-      job_data = {
-        configuration: {
-          query: {
-            allowLargeResults: true,
-            priority: 'BATCH',
-            defaultDataset: {
-              datasetId: source_dataset_id
-            },
-            destinationTable: {
-              projectId: config['project_id'],
-              datasetId: dest_dataset_id,
-              tableId:   "#{table_name}_#{date.strftime('%Y%m%d')}"
-            },
-            query: "SELECT * FROM #{table_name} WHERE DATE(timestamp)='#{date.strftime('%Y-%m-%d')}' AND member_id NOT IN (SELECT member_id FROM member_ids_to_hide_from_reports)",
-            writeDisposition: 'WRITE_TRUNCATE'
-          }
-        }
-      }
-
-      response = execute(
-        api_method: bigquery.jobs.insert,
-        parameters: {
-          projectId: config['project_id']
+    def update_file(filename, bucket, remote_filename, mime_type= 'application/x-gzip')
+      resumable_media = Google::APIClient::UploadIO.new(filename, mime_type)
+      resumable_result = execute(
+        :api_method => storage.objects.insert,
+        :media => resumable_media,
+        :parameters => {
+          :uploadType => 'resumable',
+          :bucket => bucket,
+          :name => remote_filename
         },
-        body_object: job_data
+        :body_object => {
+          :contentType => mime_type
+        }
       )
 
-      MultiJson.load( response.body )
+      upload = resumable_result.resumable_upload
+      if upload.resumable?
+        execute(upload)
+      end
+
+      upload
     end
 
     def insert_data(file_name, bucket, table_id, schema, format='NEWLINE_DELIMITED_JSON', write_disposition = 'WRITE_APPEND')

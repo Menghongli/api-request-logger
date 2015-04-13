@@ -54,7 +54,7 @@ module ApiRequestLogger
         ApiRequestLogger.redis.sadd(ApiRequestLogger::Helpers::RedisKeyMapper.everydays_request_set, key)
         ApiRequestLogger.redis.hmset(key, *h.to_a.flatten)
       else
-        # TODO Insert this request into BigQuery using sidekiq
+        ApiRequestLogger::Workers::StreamImportIntoBigQueryWorker.perform_async(h.to_json)
       end
     end
 
@@ -97,8 +97,7 @@ module ApiRequestLogger
     end
 
     def lookup_geographic_location(ip)
-      # TODO Download GeoLiteCity.dat
-      $geoip ||= GeoIP.new(File.join(Rails.root, "db", "GeoLiteCity.dat"))
+      $geoip ||= GeoIP.new(File.join(Rails.root, "config", "GeoLiteCity.dat"))
 
       if lookup = $geoip.city(ip)
         [lookup.city_name.parameterize, lookup.country_name.parameterize, lookup.latitude, lookup.longitude]

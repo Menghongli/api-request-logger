@@ -15,4 +15,6 @@ ApiRequestLogger.configure do |config|
   #
   # Default: api_request_logger
   config.redis_namespace = :api_request_logger
+
+  config.application_name = "Api_request_logger"
 end

@@ -1,0 +1,14 @@
+[
+  { "name": "method", "type": "STRING" },
+  { "name": "path", "type": "STRING" },
+  { "name": "query_string", "type": "STRING" },
+  { "name": "auth_token", "type": "STRING" },
+  { "name": "params", "type": "STRING" },
+  { "name": "user_agent", "type": "STRING" },
+  { "name": "ip", "type": "STRING" },
+  { "name": "city", "type": "STRING" },
+  { "name": "country", "type": "STRING" },
+  { "name": "response_status", "type": "INTEGER" },
+  { "name": "referer", "type": "STRING" },
+  { "name": "timestamp", "type": "TIMESTAMP" }
+]
