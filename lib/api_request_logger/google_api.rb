@@ -101,7 +101,7 @@ module ApiRequestLogger
       }
 
       response = execute(
-        api_method: bigquery.tabledata.insertAll,
+        api_method: bigquery.tabledata.insertall,
         parameters: {
           projectId: config['project_id'],
           datasetId: DATASET_ID,
