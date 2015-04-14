@@ -108,7 +108,7 @@ module ApiRequestLogger
           datasetId: DATASET_ID,
           tableId: table_id
         },
-        body: job_data
+        body_object: job_data
       )
 
       response = execute(request)
