@@ -11,7 +11,7 @@ module ApiRequestLogger
     end
 
     def config
-      @config = YAML.load_file(File.join(Rails.root, 'config', 'ga-config.yml'))
+      @config = YAML.load_file(File.join(Rails.root, 'config', 'ga_config.yml'))
     end
 
     def client
