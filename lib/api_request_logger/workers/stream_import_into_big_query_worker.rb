@@ -7,7 +7,11 @@ module ApiRequestLogger
       end
 
       def perform(data)
-        ApiRequestLogger.stream_import_into_big_query(data)
+        response = ApiRequestLogger.stream_import_into_big_query(data)
+
+        if response['insertErrors']['errors']['reason']
+          fail response['insertErrors']['errors']['message'].to_s
+        end
       end
     end
   end
