@@ -37,7 +37,7 @@ module ApiRequestLogger
       @authorized_at = Time.current
     end
 
-    def update_file(filename, bucket, remote_filename, mime_type= 'application/x-gzip')
+    def upload_file(filename, bucket, remote_filename, mime_type= 'application/x-gzip')
       resumable_media = Google::APIClient::UploadIO.new(filename, mime_type)
       resumable_result = execute(
         :api_method => storage.objects.insert,
