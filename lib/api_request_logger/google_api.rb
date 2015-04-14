@@ -1,4 +1,5 @@
 require 'google/api_client'
+require 'googleauth'
 require 'yaml'
 
 module ApiRequestLogger
@@ -30,7 +31,8 @@ module ApiRequestLogger
     end
 
     def authorize
-      client.authorization = :google_app_default
+      scopes = ['https://www.googleapis.com/auth/devstorage.read_write', 'https://www.googleapis.com/auth/bigquery'],
+      client.authorization = Google::Auth.get_application_default(scopes)
       client.authorization.fetch_access_token!
 
       @authorized = true
