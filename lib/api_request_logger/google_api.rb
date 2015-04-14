@@ -2,7 +2,7 @@ require 'google/api_client'
 require 'googleauth'
 require 'yaml'
 
-# Faraday.default_adapter = :httpclient
+Faraday.default_adapter = :httpclient
 
 module ApiRequestLogger
   class GoogleApi
