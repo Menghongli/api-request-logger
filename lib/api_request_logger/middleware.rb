@@ -51,7 +51,7 @@ module ApiRequestLogger
       key = ApiRequestLogger::Helpers::RedisKeyMapper.random_request_key
 
       if ApiRequestLogger.config.loading_method == :bulk_load
-        ApiRequestLogger.redis.sadd(ApiRequestLogger::Helpers::RedisKeyMapper.everydays_request_set, key)
+        ApiRequestLogger.redis.sadd(ApiRequestLogger::Helpers::RedisKeyMapper.everydays_requests_set, key)
         ApiRequestLogger.redis.hmset(key, *h.to_a.flatten)
       else
         ApiRequestLogger::Workers::StreamImportIntoBigQueryWorker.perform_async(h.to_json)
