@@ -97,24 +97,18 @@ module ApiRequestLogger
     def stream_data(table_id, data)
       job_data = {
         kind: 'bigquery#tableDataInsertAllRequest',
-        rows: [
-          { json: { method: "Test method" } }
-        ]
-        # rows: sanitize_data(data)
+        rows: sanitize_data(data)
       }
 
-      request = Google::APIClient::Request.new(
-        api_client: client,
+      response = execute(
         api_method: bigquery.tabledata.insert_all,
         parameters: {
           projectId: config['project_id'],
           datasetId: DATASET_ID,
           tableId: table_id
         },
-        body: job_data
+        body_object: job_data
       )
-
-      response = execute(request)
 
       MultiJson.load( response.body )
     end
