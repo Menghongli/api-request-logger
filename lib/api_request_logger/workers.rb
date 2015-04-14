@@ -1,0 +1,4 @@
+require 'api_request_logger/workers/dump_big_query_data_worker.rb'
+require 'api_request_logger/workers/import_big_query_data_worker.rb'
+require 'api_request_logger/workers/stream_import_into_big_query_worker.rb'
+require 'api_request_logger/workers/upload_big_query_data_worker.rb'
