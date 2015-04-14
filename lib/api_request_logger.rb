@@ -4,6 +4,7 @@ require "api_request_logger/version"
 require "api_request_logger/configuration"
 require "api_request_logger/helpers"
 require "api_request_logger/middleware"
+require "api_request_logger/google_api"
 
 module ApiRequestLogger
   class << self
@@ -18,6 +19,7 @@ module ApiRequestLogger
       if redis.exists(requests_set)
         prepare_set_for_exporting(requests_set, requests_set_exporting)
 
+        # TODO Create big_query_dumps folder under root
         filename = File.join(Rails.root, 'big_query_dumps', "api_requests_#{Time.current.to_i}.json.gz")
         Zlib::GzipWriter.open(filename) do |log|
           while key = redis.spop(requests_set_exporting)
