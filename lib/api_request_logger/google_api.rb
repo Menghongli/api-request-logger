@@ -2,7 +2,7 @@ require 'google/api_client'
 require 'googleauth'
 require 'yaml'
 
-Faraday.default_adapter = :httpclient
+# Faraday.default_adapter = :httpclient
 
 module ApiRequestLogger
   class GoogleApi
@@ -97,7 +97,10 @@ module ApiRequestLogger
     def stream_data(table_id, data)
       job_data = {
         kind: 'bigquery#tableDataInsertAllRequest',
-        rows: sanitize_data(data)
+        rows: [
+          { json: { method: "Test method" } }
+        ]
+        # rows: sanitize_data(data)
       }
 
       request = Google::APIClient::Request.new(
@@ -108,7 +111,7 @@ module ApiRequestLogger
           datasetId: DATASET_ID,
           tableId: table_id
         },
-        body_object: job_data
+        body: job_data
       )
 
       response = execute(request)
