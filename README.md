@@ -66,6 +66,8 @@ ENV['GOOGLE_APPLICATION_CREDENTIALS'] = '/src/api_request_logger/config/YOUR-APP
 * `TODO` customize BigQuery Schema
 * Sidekiq-cron: Add into your sidekiq initializer file (`config/initializers/sidekiq.rb`)
 ```ruby
+require 'api_request_logger/workers'
+
 schedule_file = "config/schedule.yml"
 
 if File.exists?(schedule_file)
