@@ -31,7 +31,7 @@ module ApiRequestLogger
     end
 
     def authorize
-      scopes = ['https://www.googleapis.com/auth/devstorage.read_write', 'https://www.googleapis.com/auth/bigquery'],
+      scopes = ['https://www.googleapis.com/auth/devstorage.read_write', 'https://www.googleapis.com/auth/bigquery']
       client.authorization = Google::Auth.get_application_default(scopes)
       client.authorization.fetch_access_token!
 
