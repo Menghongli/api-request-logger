@@ -272,9 +272,7 @@ module ApiRequestLogger
     end
 
     def sanitize_data(data)
-      JSON.parse(data).map do |entry|
-        { json: entry }
-      end
+      { json: JSON.parse(data) }
     end
 
   end
