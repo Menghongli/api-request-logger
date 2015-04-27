@@ -63,7 +63,10 @@ module ApiRequestLogger
     end
 
     def stream_import_into_big_query(data)
-      ApiRequestLogger::GoogleApi.new.stream_data("api_requests_#{Date.today.strftime('%Y%m%d')}", data)
+      schema_file = IO.read(File.join(Rails.root, 'config', 'bq_schema.json'))
+      schema = JSON.parse(schema_file)
+
+      ApiRequestLogger::GoogleApi.new.stream_data("api_requests_#{Date.today.strftime('%Y%m%d')}", data, schema)
     end
 
   end

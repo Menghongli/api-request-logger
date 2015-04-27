@@ -94,7 +94,13 @@ module ApiRequestLogger
     end
 
     # Streams data into BigQuery
-    def stream_data(table_id, data)
+    def stream_data(table_id, data, schema)
+      get_table_response = get_table(table_id)
+
+      if get_table_response["error"]["code"] == 404
+        create_table(table_id, schema)
+      end
+
       job_data = {
         kind: 'bigquery#tableDataInsertAllRequest',
         rows: [ sanitize_data(data) ]
