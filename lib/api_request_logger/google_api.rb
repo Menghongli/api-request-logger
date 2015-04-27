@@ -97,7 +97,7 @@ module ApiRequestLogger
     def stream_data(table_id, data)
       job_data = {
         kind: 'bigquery#tableDataInsertAllRequest',
-        rows: sanitize_data(data)
+        rows: [ sanitize_data(data) ]
       }
 
       response = execute(
