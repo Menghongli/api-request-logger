@@ -54,6 +54,8 @@ The values listed above are the defaults.
 project_id: propane-tribute-90023
 application_name: 'My Test App'
 application_version: 1.0
+
+* create `big_query_dumps` folder
 ```
 
 ### Credentials
@@ -68,11 +70,21 @@ ENV['GOOGLE_APPLICATION_CREDENTIALS'] = '/src/api_request_logger/config/YOUR-APP
 ```ruby
 require 'api_request_logger/workers'
 
-schedule_file = "config/schedule.yml"
+Sidekiq.configure_server do |config|
+  config.redis = { :url => 'redis://127.0.0.1:16379/', :namespace => "sidekiq-#{Rails.env}" }
 
-if File.exists?(schedule_file)
-  Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
+  schedule_file = "config/schedule.yml"
+
+  if File.exists?(schedule_file)
+    Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
+  end
 end
+
+Sidekiq.configure_client do |config|
+  config.redis = { :url => 'redis://127.0.0.1:16379/', :namespace => "sidekiq-#{Rails.env}" }
+end
+
+Sidekiq.default_worker_options = { 'backtrace' => true }
 ```
 
 Add the follow job to your schedule file (`config/schedule.yml`) if your are using bulk_load
